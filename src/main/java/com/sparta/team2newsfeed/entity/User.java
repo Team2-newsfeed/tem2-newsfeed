@@ -1,17 +1,18 @@
 package com.sparta.team2newsfeed.entity;
 
+import com.sparta.team2newsfeed.dto.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Getter
-@Table(name = "User")
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,12 +34,31 @@ public class User {
     @Column(nullable = false)
     private String intro;
 
-    @OneToMany(mappedBy = "board")
-    private List<Board> boardList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Board> boardList;
 
     //회원정보 대조용
-    public User(String username, String password) {
+    public User(String username, String name, String password, String email, String intro) {
         this.username = username;
+        this.name = name;
         this.password = password;
+        this.email = email;
+        this.intro = intro;
+    }
+
+    // 유저 정보 수정하기
+    public void userUpdate(UserUpdateRequestDto userUpdateRequestDto, PasswordEncoder passwordEncoder) {
+        if (userUpdateRequestDto.getPassword() != null) {
+            this.password = passwordEncoder.encode(userUpdateRequestDto.getPassword());
+        }
+        if (userUpdateRequestDto.getUsername() != null) {
+            this.username = userUpdateRequestDto.getUsername();
+        }
+        if (userUpdateRequestDto.getEmail() != null) {
+            this.email = userUpdateRequestDto.getEmail();
+        }
+        if (userUpdateRequestDto.getIntro() != null) {
+            this.intro = userUpdateRequestDto.getIntro();
+        }
     }
 }
