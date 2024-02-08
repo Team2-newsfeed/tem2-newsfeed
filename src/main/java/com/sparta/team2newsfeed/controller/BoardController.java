@@ -51,7 +51,7 @@ public class BoardController {
     }
 
     //게시글 수정
-    @PutMapping("/{boardId")
+    @PutMapping("/{boardId}")
     public ResponseEntity<?> updateBoard(@PathVariable Long boardId
 //                                         ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
 //                                         @RequestBody #DTO
@@ -62,7 +62,7 @@ public class BoardController {
     }
 
     //게시글 삭제
-    @DeleteMapping("/{boardId")
+    @DeleteMapping("/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable Long boardId
 //            ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
                                          ) {

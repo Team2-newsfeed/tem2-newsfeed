@@ -29,8 +29,12 @@ public class BoardService {
         //List에 board를 모두 담음
         List<BoardResponseDto> boardList = boardRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(BoardResponseDto::new).toList();
-        // 모든 게시물을 Controller로 리턴
-        return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(400));
+        if(boardList.isEmpty()){
+            return new ResponseEntity<>("현재 등록된 게시물이 없습니다.", HttpStatusCode.valueOf(400));
+        } else {
+            // 모든 게시물을 Controller로 리턴
+            return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(400));
+        }
     }
 
     //단일게시글 조회
@@ -62,7 +66,7 @@ public class BoardService {
             }
         } else {
             //일치하는 값이 없으면 에러메세지 포함해서 Controller 전달
-            return new ResponseEntity<>("일치하는 카테고리가 없습니다.",HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>("현재 생성된 카테고리는 " + Arrays.toString(Category.values()) + "입니다.",HttpStatusCode.valueOf(400));
         }
     }
 

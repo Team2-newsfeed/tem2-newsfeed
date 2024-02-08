@@ -33,7 +33,7 @@ public class User {
     @Column(nullable = false)
     private String intro;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "user")
     private List<Board> boardList = new ArrayList<>();
 
     //회원정보 대조용
