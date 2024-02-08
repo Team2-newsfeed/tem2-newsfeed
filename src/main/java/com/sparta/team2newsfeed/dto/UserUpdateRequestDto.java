@@ -1,5 +1,6 @@
 package com.sparta.team2newsfeed.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class UserUpdateRequestDto {
     @Pattern(regexp = "^[a-zA-Z0-9]{8,15}$")
     private String password;
 
+    @Email
     private String email;
 
     private String intro;
