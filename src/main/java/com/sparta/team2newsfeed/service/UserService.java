@@ -30,7 +30,8 @@ public class UserService {
         if(userRepository.findByUsername(username).isPresent()){
             throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
         }
-        if(userRepository.findByUsername(userRequestDto.getEmail()).isPresent()){
+
+        if(userRepository.findByEmail(userRequestDto.getEmail()).isPresent()){
             throw new IllegalArgumentException("이미 가입된 email 입니다.");
         }
 
