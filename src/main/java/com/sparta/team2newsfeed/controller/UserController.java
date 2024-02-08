@@ -25,10 +25,11 @@ public class UserController {
     //회원가입
     @PostMapping("/signup")
     public ResponseEntity<?> userSignup(@Valid @RequestBody UserRequestDto userRequestDto) {
+        System.out.println("회원가입");
         try{
             userService.userSignup(userRequestDto);
-        }catch (IllegalArgumentException exception){
-            return ResponseEntity.badRequest().body(new UserResponseDto("중복된 username 입니다", HttpStatus.BAD_REQUEST.value()));
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(new UserResponseDto(e.getMessage(),HttpStatus.BAD_REQUEST.value()));
         }
         return ResponseEntity.status(201).body(new UserResponseDto("회원가입 성공",201));
     }
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     //회원수정
-    @GetMapping("/userupdate")
+    @PutMapping("/userupdate")
     public ResponseEntity<UserResponseDto> userUpdate(@RequestBody UserUpdateRequestDto userUpdateRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {userService.userUpdate(userUpdateRequestDto,userDetails.getUser());
         }catch (IllegalArgumentException e ){
