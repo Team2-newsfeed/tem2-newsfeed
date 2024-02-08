@@ -30,6 +30,10 @@ public class UserService {
             throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
         }
 
+        if(userRepository.findByEmail(userRequestDto.getEmail()).isPresent()){
+            throw new IllegalArgumentException("이미 가입된 email 입니다.");
+        }
+
         User user = new User(username,userRequestDto.getName(),password,userRequestDto.getEmail(),userRequestDto.getIntro());
         userRepository.save(user);
     }
@@ -37,28 +41,31 @@ public class UserService {
 
 
     //로그인
-    public RequestEntity<?> userLogin(UserRequestDto userRequestDto) {
+    public void userLogin(UserRequestDto userRequestDto) {
         String username = userRequestDto.getUsername();
         String password = userRequestDto.getPassword();
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(()-> new IllegalArgumentException("등록된 사용자가 없습니다."));
 
-        if(!passwordEncoder.matches(password,user.getPassword()));{
+        if(!passwordEncoder.matches(password,user.getPassword())){
             // 암호화 안된게 앞, 된게 뒤에 들어가야함.
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
     }
 
     //회원수정
+    @Transactional
     public void userUpdate(UserUpdateRequestDto userUpdateRequestDto,User user) {
         if(user.getId() == null ){
             throw new IllegalArgumentException("로그인 유저 정보가 없음");
         }
         if(userRepository.findByUsername(user.getUsername()).isPresent()){
+
+        if(userRepository.findByUsername(userUpdateRequestDto.getUsername()).isPresent()){
             throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
         }
-        if(userRepository.findByEmail(user.getEmail()).isPresent()){
+        if(userRepository.findByEmail(userUpdateRequestDto.getEmail()).isPresent()){
             throw new IllegalArgumentException("이미 가입된 Email 입니다.");
         }
 
@@ -66,7 +73,7 @@ public class UserService {
                 .findById(user.getId())
                 .orElseThrow(()->new RuntimeException("로그인 유저 정보가 없음"));
 
-        user.userUpdate(userUpdateRequestDto,passwordEncoder);
+        userUp.userUpdate(userUpdateRequestDto,passwordEncoder);
         userRepository.save(userUp);
     }
 }
