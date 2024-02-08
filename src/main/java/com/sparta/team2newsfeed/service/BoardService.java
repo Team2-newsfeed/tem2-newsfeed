@@ -1,6 +1,6 @@
 package com.sparta.team2newsfeed.service;
 
-import com.sparta.team2newsfeed.controller.BoardController;
+
 import com.sparta.team2newsfeed.dto.BoardResponseDto;
 import com.sparta.team2newsfeed.entity.Board;
 import com.sparta.team2newsfeed.entity.Category;
@@ -33,7 +33,7 @@ public class BoardService {
             return new ResponseEntity<>("현재 등록된 게시물이 없습니다.", HttpStatusCode.valueOf(400));
         } else {
             // 모든 게시물을 Controller로 리턴
-            return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(200));
         }
     }
 
