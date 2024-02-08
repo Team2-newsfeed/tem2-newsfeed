@@ -34,6 +34,7 @@ public class User {
     @Column(nullable = false)
     private String intro;
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Board> boardList;
 

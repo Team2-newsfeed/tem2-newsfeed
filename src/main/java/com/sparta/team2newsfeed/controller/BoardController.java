@@ -40,24 +40,34 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping
-    public ResponseEntity<?> addBoard(@AuthenticationPrincipal UserDetarilsImpl userDetarils,
-                                      @RequestBody #DTO) {
-        return boardService.addBoard(userDetarils, #DTO);
+    public ResponseEntity<?> addBoard(
+//            @AuthenticationPrincipal UserDetarilsImpl userDetarils,
+//                                      @RequestBody #DTO
+    ) {
+        return boardService.addBoard(
+//                userDetarils, #DTO
+        );
 
     }
 
     //게시글 수정
-    @PutMapping("/{boardId")
-    public ResponseEntity<?> updateBoard(@PathVariable Long boardId,
-                                         @AuthenticationPrincipal UserDetarilsImpl userDetarils,
-                                         @RequestBody #DTO) {
-        return boardService.updateBoard(boardId, userDetarils, #DTO);
+    @PutMapping("/{boardId}")
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId
+//                                         ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
+//                                         @RequestBody #DTO
+    ) {
+        return boardService.updateBoard(boardId
+//                , userDetarils, #DTO
+        );
     }
 
     //게시글 삭제
-    @DeleteMapping("/{boardId")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId,
-                                         @AuthenticationPrincipal UserDetarilsImpl userDetarils) {
-        return boardService.deleteBoard(boardId, userDetarils);
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId
+//            ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
+                                         ) {
+        return boardService.deleteBoard(boardId
+//                , userDetarils
+                );
     }
 }
