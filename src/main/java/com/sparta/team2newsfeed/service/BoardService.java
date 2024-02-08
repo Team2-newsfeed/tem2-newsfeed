@@ -6,6 +6,7 @@ import com.sparta.team2newsfeed.dto.AddBoardResponseDto;
 import com.sparta.team2newsfeed.dto.BoardResponseDto;
 import com.sparta.team2newsfeed.entity.Board;
 import com.sparta.team2newsfeed.entity.Category;
+import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.BoardRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -95,13 +96,19 @@ public class BoardService {
     }
 
     //게시글 작성
-    public ResponseEntity<?> addBoard(
-            UserDetailsImpl userDetails,
+    public AddBoardResponseDto addBoard(
+            User user,
             AddBoardRequestDto addBoardRequestDto
             ) {
+        System.out.println("테스트2");
+        System.out.println(addBoardRequestDto.getBody());
         // 새로운 보드 entity 에 보드 정보와 유저 아이디를 넣어서 저장
-        Board addedBoard = boardRepository.save(new Board(addBoardRequestDto, userDetails.getUser().getId()));
-        return new ResponseEntity<>(new AddBoardResponseDto(addedBoard, userDetails.getUser()), HttpStatusCode.valueOf(200));
+//        Board addedBoard = boardRepository.save(new Board(addBoardRequestDto, userDetails.getUser()));
+        Board addedBoard1 = boardRepository.save(new Board(addBoardRequestDto,user));
+
+        System.out.println("테스트3");
+        System.out.println(addedBoard1.getBody());
+        return new AddBoardResponseDto(addedBoard1,user);
     }
 
     //게시글 수정

@@ -21,12 +21,12 @@ public class AddBoardResponseDto {
 
     private LocalDateTime createdAt;
 
-    public AddBoardResponseDto(Board board, User user) {
+    public AddBoardResponseDto(Board board,User user) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.body = board.getBody();
         this.category = board.getCategory();
-        this.username = user.getUsername();
         this.createdAt = board.getCreatedAt();
+        this.username = user.getUsername();
     }
 }

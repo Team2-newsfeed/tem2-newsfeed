@@ -32,7 +32,11 @@ public class Board extends Timestemped {
     private User user;
 
     // BoardService 에서 보드Dto 와 유저 ID를 받기 위한 생성자
-    public Board(AddBoardRequestDto addBoardRequestDto, Long id) {
-        super();
+    public Board(AddBoardRequestDto addBoardRequestDto, User user) {
+        this.title =addBoardRequestDto.getTitle();
+        this.body = addBoardRequestDto.getBody();
+        this.category = addBoardRequestDto.getCategory();
+        this.cookLevel = addBoardRequestDto.getCookLevel();
+        this.user = user;
     }
 }
