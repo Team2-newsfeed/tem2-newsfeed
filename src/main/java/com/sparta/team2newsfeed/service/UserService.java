@@ -51,15 +51,22 @@ public class UserService {
     }
 
     //회원수정
-    public void userUpdate(UserUpdateRequestDto userUpdateRequestDto,Long userId) {
-        if(userId == null ){
+    public void userUpdate(UserUpdateRequestDto userUpdateRequestDto,User user) {
+        if(user.getId() == null ){
             throw new IllegalArgumentException("로그인 유저 정보가 없음");
         }
-        User user = userRepository
-                .findById(userId)
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
+        }
+        if(userRepository.findByEmail(user.getEmail()).isPresent()){
+            throw new IllegalArgumentException("이미 가입된 Email 입니다.");
+        }
+
+        User userUp = userRepository
+                .findById(user.getId())
                 .orElseThrow(()->new RuntimeException("로그인 유저 정보가 없음"));
 
         user.userUpdate(userUpdateRequestDto,passwordEncoder);
-        userRepository.save(user);
+        userRepository.save(userUp);
     }
 }
