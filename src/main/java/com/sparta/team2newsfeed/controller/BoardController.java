@@ -33,7 +33,7 @@ public class BoardController {
     }
 
     //난이도별 조회
-    @GetMapping("/cookLevel/{cookLevel}")
+    @GetMapping("/cooklevel/{cookLevel}")
     public ResponseEntity<?> getBoardCookLevel(@PathVariable int cookLevel) {
         return boardService.getBoardCookLevel(cookLevel);
     }
@@ -65,9 +65,9 @@ public class BoardController {
     @DeleteMapping("/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable Long boardId
 //            ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
-                                         ) {
+    ) {
         return boardService.deleteBoard(boardId
 //                , userDetarils
-                );
+        );
     }
 }
