@@ -8,12 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequestDto {
+public class UserUpdateRequestDto {
 
     @Pattern(regexp = "^[a-z0-9]{4,10}$")
     private String username;
-
-    private String name;
 
     @Pattern(regexp = "^[a-zA-Z0-9]{8,15}$")
     private String password;
@@ -21,5 +19,4 @@ public class UserRequestDto {
     private String email;
 
     private String intro;
-
 }
