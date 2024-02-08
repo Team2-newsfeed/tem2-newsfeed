@@ -1,7 +1,10 @@
 package com.sparta.team2newsfeed.controller;
 
+import com.sparta.team2newsfeed.dto.AddBoardRequestDto;
+import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.service.BoardService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,13 +43,10 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping
-    public ResponseEntity<?> addBoard(
-//            @AuthenticationPrincipal UserDetarilsImpl userDetarils,
-//                                      @RequestBody #DTO
-    ) {
-        return boardService.addBoard(
-//                userDetarils, #DTO
-        );
+    public ResponseEntity<?> addBoard(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @RequestBody AddBoardRequestDto addBoardRequestDtoequestDto
+                                      ) {
+        return boardService.addBoard(userDetails, addBoardRequestDtoequestDto);
 
     }
 
