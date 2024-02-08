@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.team2newsfeed.service.UserDetailsService;
-import com.sparta.team2newsfeed.dto.UserResponseDto;
+import com.sparta.team2newsfeed.dto.StatusResponseDto;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -54,10 +54,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }else {
                 // 인증정보가  존재하지 않을때
-                UserResponseDto userResponseDto = new UserResponseDto("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
+                StatusResponseDto statusResponseDto = new StatusResponseDto("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.setContentType("application/json; charset=UTF-8");
-                response.getWriter().write(objectMapper.writeValueAsString(userResponseDto));
+                response.getWriter().write(objectMapper.writeValueAsString(statusResponseDto));
                 // write 타입은 스트링 이므로 ,objectMapper 를 통해 맵핑 해서 String 으로변환
                 return;
                 // 더 필터를 타지 않고 에러응답을 리턴시킴
