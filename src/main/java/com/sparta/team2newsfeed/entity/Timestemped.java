@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-@EntityListeners((AuditingEntityListener.class))
+@EntityListeners(AuditingEntityListener.class)
 public abstract class Timestemped {
 
     @CreatedDate                        //최초 생성될때 시간 값이 createdAt에 저장

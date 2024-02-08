@@ -17,31 +17,45 @@ public class UserController {
 
     //회원가입
     @PostMapping("/signup")
-    public RequestEntity<?> userSignup(@Valid @RequestBody #DTO) {
-        return userService.userSignup(#DTO);
+    public RequestEntity<?> userSignup(
+//            @Valid @RequestBody #DTO
+    ) {
+        return userService.userSignup(
+//                #DTO
+        );
 
     }
 
     //로그인
     @PostMapping("/login")
-    public RequestEntity<?> userLogin(@AuthenticationPrincipal UserDetarilsImpl userDetarils,
-                                      #DTO) {
-        return userService.userLogin(userDetarils, #DTO);
+    public RequestEntity<?> userLogin(
+//            @AuthenticationPrincipal UserDetarilsImpl userDetarils,
+//                                      #DTO
+                                      ) {
+        return userService.userLogin(
+//                userDetarils, #DTO
+                );
     }
 
     //로그아웃
     @PostMapping("/logout")
-    public void userLogout(@AuthenticationPrincipal UserDetarilsImpl userDetarils) {
-        userService.userLogout(userDetarils);
+    public void userLogout(
+//            @AuthenticationPrincipal UserDetarilsImpl userDetarils
+    ) {
+        userService.userLogout(
+//                userDetarils
+        );
     }
 
     //회원수정
     @PutMapping("/{boardId}")
-    public RequestEntity<?> userUpdate(@PathVariable Long boardId,
-                                       @AuthenticationPrincipal UserDetarilsImpl userDetarils,
-                                       #DTO
+    public RequestEntity<?> userUpdate(@PathVariable Long boardId
+//                                       ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
+//                                       #DTO
                                        ) {
-        return userService.userUpdate(boardId, userDetarils, #DTO);
+        return userService.userUpdate(boardId
+//                , userDetarils, #DTO
+        );
 
     }
 

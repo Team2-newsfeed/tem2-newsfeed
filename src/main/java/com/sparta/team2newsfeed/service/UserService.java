@@ -16,20 +16,29 @@ public class UserService {
     }
 
     //회원가입
-    public RequestEntity<?> userSignup(#DOT) {
-        return;
+    public RequestEntity<?> userSignup(
+//            #DOT
+            ) {
+        return null;
     }
 
     //로그인
-    public RequestEntity<?> userLogin(UserDetarilsImpl userDetarils) {
-        return;
+    public RequestEntity<?> userLogin(
+//            UserDetarilsImpl userDetarils
+    ) {
+        return null;
     }
 
     //로그아웃
-    public void userLogout(UserDetarilsImpl userDetarils) {
+    public void userLogout(
+//            UserDetarilsImpl userDetarils
+    ) {
     }
 
     //회원수정
-    public RequestEntity<?> userUpdate(Long boardId, UserDetarilsImpl userDetarils) {
+    public RequestEntity<?> userUpdate(Long boardId
+//            , UserDetarilsImpl userDetarils
+    ) {
+        return null;
     }
 }
