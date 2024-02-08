@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponseDto {
+public class StatusResponseDto {
     //API 응답할때 쓰는 DTO
 
     private String msg; // 메세지
