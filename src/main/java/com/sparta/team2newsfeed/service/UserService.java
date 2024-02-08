@@ -4,6 +4,7 @@ import com.sparta.team2newsfeed.dto.UserRequestDto;
 import com.sparta.team2newsfeed.dto.UserUpdateRequestDto;
 import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.RequestEntity;
@@ -57,10 +58,6 @@ public class UserService {
     //회원수정
     @Transactional
     public void userUpdate(UserUpdateRequestDto userUpdateRequestDto,User user) {
-        if(user.getId() == null ){
-            throw new IllegalArgumentException("로그인 유저 정보가 없음");
-        }
-        if(userRepository.findByUsername(user.getUsername()).isPresent()){
 
         if(userRepository.findByUsername(userUpdateRequestDto.getUsername()).isPresent()){
             throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
