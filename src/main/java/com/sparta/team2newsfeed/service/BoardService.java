@@ -99,8 +99,8 @@ public class BoardService {
             UserDetailsImpl userDetails,
             AddBoardRequestDto addBoardRequestDto
             ) {
-        // 새로운 보드 entity 에 보드 정보와 유저 아이디를 넣어서 저장
-        Board addedBoard = boardRepository.save(new Board(addBoardRequestDto, userDetails.getUser().getId()));
+        // 새로운 보드 entity 에 보드 정보와 유저를 넣어서 저장
+        Board addedBoard = boardRepository.save(new Board(addBoardRequestDto, userDetails.getUser()));
         return new ResponseEntity<>(new AddBoardResponseDto(addedBoard, userDetails.getUser()), HttpStatusCode.valueOf(200));
     }
 
