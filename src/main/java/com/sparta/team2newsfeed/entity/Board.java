@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -30,6 +33,10 @@ public class Board extends Timestemped {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "Like_id")
+    private List<Like> likes = new ArrayList<>();
 
     // BoardService 에서 보드Dto 와 유저 ID를 받기 위한 생성자
     public Board(AddBoardRequestDto addBoardRequestDto, User user) {
