@@ -1,5 +1,6 @@
 package com.sparta.team2newsfeed.entity;
 
+import com.sparta.team2newsfeed.dto.AddBoardRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,20 @@ public class Board extends Timestemped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // BoardService 에서 보드Dto 와 유저 ID를 받기 위한 생성자
+    public Board(AddBoardRequestDto addBoardRequestDto, User user) {
+        this.title = addBoardRequestDto.getTitle();
+        this.body = addBoardRequestDto.getBody();
+        this.category = addBoardRequestDto.getCategory();
+        this.cookLevel = addBoardRequestDto.getCookLevel();
+        this.user = user;
+    }
+
+    // 게시물 수정시 사용
+    public void update(AddBoardRequestDto addBoardRequestDto) {
+        this.title = addBoardRequestDto.getTitle();
+        this.body = addBoardRequestDto.getBody();;
+        this.category = addBoardRequestDto.getCategory();
+        this.cookLevel = addBoardRequestDto.getCookLevel();
+    }
 }
