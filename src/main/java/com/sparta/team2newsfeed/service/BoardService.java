@@ -10,16 +10,12 @@ import com.sparta.team2newsfeed.entity.Category;
 import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.BoardRepository;
+import com.sparta.team2newsfeed.repository.LikesRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.swing.text.html.Option;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,27 +23,32 @@ import java.util.Optional;
 public class BoardService {
     //Repository 주입
     private final BoardRepository boardRepository;
+    private final LikesRepository likesRepository;
+//    private final List<Likes> likes;
 
-    public BoardService(BoardRepository boardRepository) {
+    public BoardService(BoardRepository boardRepository, LikesRepository likesRepository) { //, List<Likes> likes) {
         this.boardRepository = boardRepository;
+//        this.likes = likes;
+        this.likesRepository = likesRepository;
     }
 
 
-    //전체게시글 조회
-    public ResponseEntity<?> getBoardAll() {
-        //List에 board를 모두 담음
-        List<BoardResponseDto> boardList = boardRepository.findAllByOrderByCreatedAtDesc().stream()
-                .map(BoardResponseDto::new).toList();
-        if (boardList.isEmpty()) {
-            return new ResponseEntity<>(
-                    new StatusResponseDto("현재 등록된 게시물이 없습니다.", 400),
-                    HttpStatusCode.valueOf(400));
-//            return new ResponseEntity<>("현재 등록된 게시물이 없습니다.", HttpStatusCode.valueOf(400));
-        } else {
-            // 모든 게시물을 Controller로 리턴
-            return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(200));
-        }
-    }
+//    //전체게시글 조회
+//    public ResponseEntity<?> getBoardAll() {
+//        //List에 board를 모두 담음
+//        List<BoardResponseDto> boardList = boardRepository.findAllByOrderByCreatedAtDesc().stream()
+//                .map(BoardResponseDto::new).toList();
+//
+//        if (boardList.isEmpty()) {
+//            return new ResponseEntity<>(
+//                    new StatusResponseDto("현재 등록된 게시물이 없습니다.", 400),
+//                    HttpStatusCode.valueOf(400));
+////            return new ResponseEntity<>("현재 등록된 게시물이 없습니다.", HttpStatusCode.valueOf(400));
+//        } else {
+//            // 모든 게시물을 Controller로 리턴
+//            return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(200));
+//        }
+//    }
 
     //단일게시글 조회
     public ResponseEntity<?> getBoardOne(Long boardId) {
@@ -55,7 +56,8 @@ public class BoardService {
             //조회한 게시글의 ID가 있으면 담아서 Controller로 전달
             Board board = boardRepository.findById(boardId).orElseThrow(()
                     -> new IllegalArgumentException("해당하는 게시물이 없습니다."));
-            return new ResponseEntity<>(new BoardResponseDto(board), HttpStatusCode.valueOf(200));
+            Long likes = likesRepository.findAllByBoard_Id(boardId).stream().count();
+            return new ResponseEntity<>(new BoardResponseDto(board, likes), HttpStatusCode.valueOf(200));
         } catch (IllegalArgumentException e) {
             //Exception 발생하면 에러메세지와 상태코드 Controller로 전달
             return new ResponseEntity<>(
@@ -65,53 +67,53 @@ public class BoardService {
     }
 
     //
-    //카테고리별 조회
-    public ResponseEntity<?> getBoardCategory(String categoryName) {
-        //입력된 값이 맞는지 확인하는 메소드
-        if (isCategoryYn(categoryName)) {
-            List<BoardResponseDto> cateBoardList =
-                    boardRepository.findBoardsByCategoryEqualsOrderByCreatedAtDesc(categoryName.toUpperCase()).stream()
-                            .map(BoardResponseDto::new).toList();
-            if (cateBoardList.isEmpty()) {
-                //값은 일치하지만 List가 null 일때
-                return new ResponseEntity<>(
-                        new StatusResponseDto(categoryName + " 카테고리에 해당하는 레시피가 없습니다.", 400),
-                        HttpStatusCode.valueOf(400));
-            } else {
-                //값이 일치하면서 List가 null이 아닐때
-                return new ResponseEntity<>(cateBoardList, HttpStatusCode.valueOf(200));
-            }
-        } else {
-            //일치하는 값이 없으면 에러메세지 포함해서 Controller 전달
-            return new ResponseEntity<>(
-                    new StatusResponseDto("현재 생성된 카테고리는 " + Arrays.toString(Category.values()) + "입니다.", 400),
-                    HttpStatusCode.valueOf(400));
-        }
-    }
+//    //카테고리별 조회
+//    public ResponseEntity<?> getBoardCategory(String categoryName) {
+//        //입력된 값이 맞는지 확인하는 메소드
+//        if (isCategoryYn(categoryName)) {
+//            List<BoardResponseDto> cateBoardList =
+//                    boardRepository.findBoardsByCategoryEqualsOrderByCreatedAtDesc(categoryName.toUpperCase()).stream()
+//                            .map(BoardResponseDto::new).toList();
+//            if (cateBoardList.isEmpty()) {
+//                //값은 일치하지만 List가 null 일때
+//                return new ResponseEntity<>(
+//                        new StatusResponseDto(categoryName + " 카테고리에 해당하는 레시피가 없습니다.", 400),
+//                        HttpStatusCode.valueOf(400));
+//            } else {
+//                //값이 일치하면서 List가 null이 아닐때
+//                return new ResponseEntity<>(cateBoardList, HttpStatusCode.valueOf(200));
+//            }
+//        } else {
+//            //일치하는 값이 없으면 에러메세지 포함해서 Controller 전달
+//            return new ResponseEntity<>(
+//                    new StatusResponseDto("현재 생성된 카테고리는 " + Arrays.toString(Category.values()) + "입니다.", 400),
+//                    HttpStatusCode.valueOf(400));
+//        }
+//    }
 
-    //난이도별 조회
-    public ResponseEntity<?> getBoardCookLevel(int cookLevel) {
-        //난이도 1~5사이인지 확인
-        if (1 <= cookLevel && cookLevel <= 5) {
-            List<BoardResponseDto> levelBoardList =
-                    boardRepository.findBoardsByCookLevelEqualsOrderByCreatedAtDesc(cookLevel).stream()
-                            .map(BoardResponseDto::new).toList();
-            if (levelBoardList.isEmpty()) {
-                //난이도는 맞는데 리스트가 null일때
-                return new ResponseEntity<>(
-                        new StatusResponseDto("난이도 " + cookLevel + " 에 해당하는 게시글이 없습니다.", 400),
-                        HttpStatusCode.valueOf(400));
-            } else {
-                //난이도는 맞는데 리스트가 null이 아닐때
-                return new ResponseEntity<>(levelBoardList, HttpStatusCode.valueOf(200));
-            }
-        } else {
-            //난이도가 벗어나면 에러메세지 포함해서 Controller 전달
-            return new ResponseEntity<>(
-                    new StatusResponseDto("레시피의 난이도는 1~5까지 입니다.", 400),
-                    HttpStatusCode.valueOf(400));
-        }
-    }
+//    //난이도별 조회
+//    public ResponseEntity<?> getBoardCookLevel(int cookLevel) {
+//        //난이도 1~5사이인지 확인
+//        if (1 <= cookLevel && cookLevel <= 5) {
+//            List<BoardResponseDto> levelBoardList =
+//                    boardRepository.findBoardsByCookLevelEqualsOrderByCreatedAtDesc(cookLevel).stream()
+//                            .map(BoardResponseDto::new).toList();
+//            if (levelBoardList.isEmpty()) {
+//                //난이도는 맞는데 리스트가 null일때
+//                return new ResponseEntity<>(
+//                        new StatusResponseDto("난이도 " + cookLevel + " 에 해당하는 게시글이 없습니다.", 400),
+//                        HttpStatusCode.valueOf(400));
+//            } else {
+//                //난이도는 맞는데 리스트가 null이 아닐때
+//                return new ResponseEntity<>(levelBoardList, HttpStatusCode.valueOf(200));
+//            }
+//        } else {
+//            //난이도가 벗어나면 에러메세지 포함해서 Controller 전달
+//            return new ResponseEntity<>(
+//                    new StatusResponseDto("레시피의 난이도는 1~5까지 입니다.", 400),
+//                    HttpStatusCode.valueOf(400));
+//        }
+//    }
 
     //게시글 작성
     public ResponseEntity<?> addBoard(UserDetailsImpl userDetails,
@@ -126,10 +128,10 @@ public class BoardService {
                                          UserDetailsImpl userDetails,
                                          AddBoardRequestDto addBoardRequestDto) {
         //게시글 가져오기
-        if(findBoard(boardId).isPresent()){
+        if (findBoard(boardId).isPresent()) {
             Board board = findBoard(boardId).get();
             //작성자 본인인지 확인 아니면 아래 메세지 전달
-            if(!findMyBoard(board, userDetails)){
+            if (!findMyBoard(board, userDetails)) {
                 return new ResponseEntity<>(
                         new StatusResponseDto("작성자만 수정이 가능합니다.", 400),
                         HttpStatusCode.valueOf(400));
@@ -153,10 +155,10 @@ public class BoardService {
     public ResponseEntity<?> deleteBoard(Long boardId,
                                          UserDetailsImpl userDetails) {
         //게시글 가져오기
-        if(findBoard(boardId).isPresent()){
+        if (findBoard(boardId).isPresent()) {
             Board board = findBoard(boardId).get();
             //작성자 본인인지 확인 아니면 아래 메세지 전달
-            if(!findMyBoard(board, userDetails)){
+            if (!findMyBoard(board, userDetails)) {
                 return new ResponseEntity<>(
                         new StatusResponseDto("작성자만 삭제가 가능합니다.", 400),
                         HttpStatusCode.valueOf(400));
@@ -164,7 +166,7 @@ public class BoardService {
                 //작성자 본인일 경우
                 boardRepository.delete(board);
                 return new ResponseEntity<>(
-                        new StatusResponseDto("게시물이 삭제 되었습니다.",200),
+                        new StatusResponseDto("게시물이 삭제 되었습니다.", 200),
                         HttpStatusCode.valueOf(200));
             }
         } else {
@@ -187,13 +189,14 @@ public class BoardService {
             return false;
         }
     }
+
     //게시글 작성자 본인인지 확인
     private boolean findMyBoard(Board board, UserDetailsImpl userDetails) {
-            User loginUser = userDetails.getUser();
-            User boardUser = board.getUser();
+        User loginUser = userDetails.getUser();
+        User boardUser = board.getUser();
 
-            return loginUser.getUsername().equals(boardUser.getUsername()) &&
-                    loginUser.getPassword().equals(boardUser.getPassword());
+        return loginUser.getUsername().equals(boardUser.getUsername()) &&
+                loginUser.getPassword().equals(boardUser.getPassword());
     }
 
     //존재하는 게시물인지 확인

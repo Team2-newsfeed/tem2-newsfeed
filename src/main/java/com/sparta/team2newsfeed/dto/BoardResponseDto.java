@@ -1,7 +1,6 @@
 package com.sparta.team2newsfeed.dto;
 
 import com.sparta.team2newsfeed.entity.Board;
-import com.sparta.team2newsfeed.entity.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,10 +12,11 @@ public class BoardResponseDto {
     private String body;
     private String category;
     private String username;
+    private Long likes;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public BoardResponseDto(Board board){
+    public BoardResponseDto(Board board, Long likes) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.body = board.getBody();
@@ -24,5 +24,6 @@ public class BoardResponseDto {
         this.username = board.getUser().getUsername();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
+        this.likes = likes;
     }
 }
