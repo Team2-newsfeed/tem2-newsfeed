@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface LikesRepository extends JpaRepository<Likes,Long> {
     Likes findLikesByBoard_IdAndUser_IdEquals(Long boardId, Long userId);
 
-    Optional<Likes> findAllByBoard_Id(Long boardId);
-
 }

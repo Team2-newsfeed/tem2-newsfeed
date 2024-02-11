@@ -10,7 +10,6 @@ import com.sparta.team2newsfeed.entity.Category;
 import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.BoardRepository;
-import com.sparta.team2newsfeed.repository.LikesRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -24,32 +23,27 @@ import java.util.Optional;
 public class BoardService {
     //Repository 주입
     private final BoardRepository boardRepository;
-    private final LikesRepository likesRepository;
-//    private final List<Likes> likes;
 
-    public BoardService(BoardRepository boardRepository, LikesRepository likesRepository) { //, List<Likes> likes) {
+    public BoardService(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
-//        this.likes = likes;
-        this.likesRepository = likesRepository;
     }
 
 
-//    //전체게시글 조회
-//    public ResponseEntity<?> getBoardAll() {
-//        //List에 board를 모두 담음
-//        List<BoardResponseDto> boardList = boardRepository.findAllByOrderByCreatedAtDesc().stream()
-//                .map(BoardResponseDto::new).toList();
-//
-//        if (boardList.isEmpty()) {
-//            return new ResponseEntity<>(
-//                    new StatusResponseDto("현재 등록된 게시물이 없습니다.", 400),
-//                    HttpStatusCode.valueOf(400));
-////            return new ResponseEntity<>("현재 등록된 게시물이 없습니다.", HttpStatusCode.valueOf(400));
-//        } else {
-//            // 모든 게시물을 Controller로 리턴
-//            return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(200));
-//        }
-//    }
+    //전체게시글 조회
+    public ResponseEntity<?> getBoardAll() {
+        //List에 board를 모두 담음
+        List<BoardResponseDto> boardList = boardRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(BoardResponseDto::new).toList();
+
+        if (boardList.isEmpty()) {
+            return new ResponseEntity<>(
+                    new StatusResponseDto("현재 등록된 게시물이 없습니다.", 400),
+                    HttpStatusCode.valueOf(400));
+        } else {
+            // 모든 게시물을 Controller로 리턴
+            return new ResponseEntity<>(boardList, HttpStatusCode.valueOf(200));
+        }
+    }
 
     //단일게시글 조회
     public ResponseEntity<?> getBoardOne(Long boardId) {
@@ -57,7 +51,6 @@ public class BoardService {
             //조회한 게시글의 ID가 있으면 담아서 Controller로 전달
             Board board = boardRepository.findById(boardId).orElseThrow(()
                     -> new IllegalArgumentException("해당하는 게시물이 없습니다."));
-            Long likes = likesRepository.findAllByBoard_Id(boardId).stream().count();
             return new ResponseEntity<>(new BoardResponseDto(board), HttpStatusCode.valueOf(200));
         } catch (IllegalArgumentException e) {
             //Exception 발생하면 에러메세지와 상태코드 Controller로 전달
