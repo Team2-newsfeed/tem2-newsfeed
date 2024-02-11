@@ -13,6 +13,7 @@ public class BoardResponseDto {
     private String category;
     private String username;
     private Long likes;
+    private Long comments;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -25,5 +26,6 @@ public class BoardResponseDto {
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
         this.likes = board.getLikes().stream().count();
+        this.comments = board.getComments().stream().count();
     }
 }
