@@ -17,11 +17,11 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-//    //전체게시글 조회
-//    @GetMapping("/board")
-//    public ResponseEntity<?> getBoardAll() {
-//        return boardService.getBoardAll();
-//    }
+    //전체게시글 조회
+    @GetMapping("/board")
+    public ResponseEntity<?> getBoardAll() {
+        return boardService.getBoardAll();
+    }
 
     //단일게시글 조회
     @GetMapping("/board/{boardId}")
@@ -29,17 +29,17 @@ public class BoardController {
         return boardService.getBoardOne(boardId);
     }
 
-//    //카테고리별 조회
-//    @GetMapping("/board/category/{categoryName}")
-//    public ResponseEntity<?> getBoardCategory(@PathVariable String categoryName) {
-//        return boardService.getBoardCategory(categoryName);
-//    }
-//
-//    //난이도별 조회
-//    @GetMapping("/board/cooklevel/{cookLevel}")
-//    public ResponseEntity<?> getBoardCookLevel(@PathVariable int cookLevel) {
-//        return boardService.getBoardCookLevel(cookLevel);
-//    }
+    //카테고리별 조회
+    @GetMapping("/board/category/{categoryName}")
+    public ResponseEntity<?> getBoardCategory(@PathVariable String categoryName) {
+        return boardService.getBoardCategory(categoryName);
+    }
+
+    //난이도별 조회
+    @GetMapping("/board/cooklevel/{cookLevel}")
+    public ResponseEntity<?> getBoardCookLevel(@PathVariable int cookLevel) {
+        return boardService.getBoardCookLevel(cookLevel);
+    }
 
     //게시글 작성
     @PostMapping("/boardmake")

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,54 +61,54 @@ public class BoardService {
         }
     }
 
-    //
-//    //카테고리별 조회
-//    public ResponseEntity<?> getBoardCategory(String categoryName) {
-//        //입력된 값이 맞는지 확인하는 메소드
-//        if (isCategoryYn(categoryName)) {
-//            List<BoardResponseDto> cateBoardList =
-//                    boardRepository.findBoardsByCategoryEqualsOrderByCreatedAtDesc(categoryName.toUpperCase()).stream()
-//                            .map(BoardResponseDto::new).toList();
-//            if (cateBoardList.isEmpty()) {
-//                //값은 일치하지만 List가 null 일때
-//                return new ResponseEntity<>(
-//                        new StatusResponseDto(categoryName + " 카테고리에 해당하는 레시피가 없습니다.", 400),
-//                        HttpStatusCode.valueOf(400));
-//            } else {
-//                //값이 일치하면서 List가 null이 아닐때
-//                return new ResponseEntity<>(cateBoardList, HttpStatusCode.valueOf(200));
-//            }
-//        } else {
-//            //일치하는 값이 없으면 에러메세지 포함해서 Controller 전달
-//            return new ResponseEntity<>(
-//                    new StatusResponseDto("현재 생성된 카테고리는 " + Arrays.toString(Category.values()) + "입니다.", 400),
-//                    HttpStatusCode.valueOf(400));
-//        }
-//    }
 
-//    //난이도별 조회
-//    public ResponseEntity<?> getBoardCookLevel(int cookLevel) {
-//        //난이도 1~5사이인지 확인
-//        if (1 <= cookLevel && cookLevel <= 5) {
-//            List<BoardResponseDto> levelBoardList =
-//                    boardRepository.findBoardsByCookLevelEqualsOrderByCreatedAtDesc(cookLevel).stream()
-//                            .map(BoardResponseDto::new).toList();
-//            if (levelBoardList.isEmpty()) {
-//                //난이도는 맞는데 리스트가 null일때
-//                return new ResponseEntity<>(
-//                        new StatusResponseDto("난이도 " + cookLevel + " 에 해당하는 게시글이 없습니다.", 400),
-//                        HttpStatusCode.valueOf(400));
-//            } else {
-//                //난이도는 맞는데 리스트가 null이 아닐때
-//                return new ResponseEntity<>(levelBoardList, HttpStatusCode.valueOf(200));
-//            }
-//        } else {
-//            //난이도가 벗어나면 에러메세지 포함해서 Controller 전달
-//            return new ResponseEntity<>(
-//                    new StatusResponseDto("레시피의 난이도는 1~5까지 입니다.", 400),
-//                    HttpStatusCode.valueOf(400));
-//        }
-//    }
+    //카테고리별 조회
+    public ResponseEntity<?> getBoardCategory(String categoryName) {
+        //입력된 값이 맞는지 확인하는 메소드
+        if (isCategoryYn(categoryName)) {
+            List<BoardResponseDto> cateBoardList =
+                    boardRepository.findBoardsByCategoryEqualsOrderByCreatedAtDesc(categoryName.toUpperCase()).stream()
+                            .map(BoardResponseDto::new).toList();
+            if (cateBoardList.isEmpty()) {
+                //값은 일치하지만 List가 null 일때
+                return new ResponseEntity<>(
+                        new StatusResponseDto(categoryName + " 카테고리에 해당하는 레시피가 없습니다.", 400),
+                        HttpStatusCode.valueOf(400));
+            } else {
+                //값이 일치하면서 List가 null이 아닐때
+                return new ResponseEntity<>(cateBoardList, HttpStatusCode.valueOf(200));
+            }
+        } else {
+            //일치하는 값이 없으면 에러메세지 포함해서 Controller 전달
+            return new ResponseEntity<>(
+                    new StatusResponseDto("현재 생성된 카테고리는 " + Arrays.toString(Category.values()) + "입니다.", 400),
+                    HttpStatusCode.valueOf(400));
+        }
+    }
+
+    //난이도별 조회
+    public ResponseEntity<?> getBoardCookLevel(int cookLevel) {
+        //난이도 1~5사이인지 확인
+        if (1 <= cookLevel && cookLevel <= 5) {
+            List<BoardResponseDto> levelBoardList =
+                    boardRepository.findBoardsByCookLevelEqualsOrderByCreatedAtDesc(cookLevel).stream()
+                            .map(BoardResponseDto::new).toList();
+            if (levelBoardList.isEmpty()) {
+                //난이도는 맞는데 리스트가 null일때
+                return new ResponseEntity<>(
+                        new StatusResponseDto("난이도 " + cookLevel + " 에 해당하는 게시글이 없습니다.", 400),
+                        HttpStatusCode.valueOf(400));
+            } else {
+                //난이도는 맞는데 리스트가 null이 아닐때
+                return new ResponseEntity<>(levelBoardList, HttpStatusCode.valueOf(200));
+            }
+        } else {
+            //난이도가 벗어나면 에러메세지 포함해서 Controller 전달
+            return new ResponseEntity<>(
+                    new StatusResponseDto("레시피의 난이도는 1~5까지 입니다.", 400),
+                    HttpStatusCode.valueOf(400));
+        }
+    }
 
     //게시글 작성
     public ResponseEntity<?> addBoard(UserDetailsImpl userDetails,
