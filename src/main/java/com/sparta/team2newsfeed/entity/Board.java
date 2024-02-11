@@ -37,6 +37,9 @@ public class Board extends Timestemped {
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Likes> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
     // BoardService 에서 보드Dto 와 유저 ID를 받기 위한 생성자
     public Board(AddBoardRequestDto addBoardRequestDto, User user) {
         this.title = addBoardRequestDto.getTitle();
@@ -50,7 +53,6 @@ public class Board extends Timestemped {
     public void update(AddBoardRequestDto addBoardRequestDto) {
         this.title = addBoardRequestDto.getTitle();
         this.body = addBoardRequestDto.getBody();
-        ;
         this.category = addBoardRequestDto.getCategory();
         this.cookLevel = addBoardRequestDto.getCookLevel();
     }
