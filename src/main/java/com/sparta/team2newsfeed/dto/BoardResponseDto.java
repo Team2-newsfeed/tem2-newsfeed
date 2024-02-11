@@ -16,7 +16,7 @@ public class BoardResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public BoardResponseDto(Board board, Long likes) {
+    public BoardResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.body = board.getBody();
@@ -24,6 +24,6 @@ public class BoardResponseDto {
         this.username = board.getUser().getUsername();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
-        this.likes = likes;
+        this.likes = board.getLikes().stream().count();
     }
 }

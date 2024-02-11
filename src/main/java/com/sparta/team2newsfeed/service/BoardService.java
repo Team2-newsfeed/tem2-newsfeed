@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -57,7 +58,7 @@ public class BoardService {
             Board board = boardRepository.findById(boardId).orElseThrow(()
                     -> new IllegalArgumentException("해당하는 게시물이 없습니다."));
             Long likes = likesRepository.findAllByBoard_Id(boardId).stream().count();
-            return new ResponseEntity<>(new BoardResponseDto(board, likes), HttpStatusCode.valueOf(200));
+            return new ResponseEntity<>(new BoardResponseDto(board), HttpStatusCode.valueOf(200));
         } catch (IllegalArgumentException e) {
             //Exception 발생하면 에러메세지와 상태코드 Controller로 전달
             return new ResponseEntity<>(
