@@ -1,6 +1,6 @@
 package com.sparta.team2newsfeed.entity;
 
-import com.sparta.team2newsfeed.dto.AddCommentRequestDto;
+import com.sparta.team2newsfeed.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,11 +25,15 @@ public class Comment extends Timestemped {
     private User user;
 
     //comment repository 저장시 사용
-    private Comment(AddCommentRequestDto addCommentRequestDto, Board board, User user) {
-        this.id = addCommentRequestDto.getId();
-        this.comment = addCommentRequestDto.getComment();
+    public Comment(CommentRequestDto commentRequestDto, Board board, User user) {
+        this.id = commentRequestDto.getId();
+        this.comment = commentRequestDto.getComment();
         this.board = board;
         this.user = user;
     }
 
+    //comment update 사용
+    public void update(CommentRequestDto commentRequestDto) {
+        this.comment = commentRequestDto.getComment();
+    }
 }
