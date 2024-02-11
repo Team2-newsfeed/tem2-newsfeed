@@ -58,4 +58,10 @@ public class UserController {
         return ResponseEntity.ok().body(new StatusResponseDto("회원정보 수정 성공", HttpStatus.OK.value()));
     }
 
+    //회원삭제
+    @DeleteMapping("/userdelete/{userId}")
+    public ResponseEntity<StatusResponseDto> userDelete(@PathVariable Long userId) {
+        return userService.userDelete(userId);
+    }
+
 }
