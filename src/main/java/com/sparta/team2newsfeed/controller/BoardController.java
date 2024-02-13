@@ -3,6 +3,7 @@ package com.sparta.team2newsfeed.controller;
 import com.sparta.team2newsfeed.dto.AddBoardRequestDto;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.service.BoardService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    //전체게시글 조회
+        //전체게시글 조회
     @GetMapping("/board")
     public ResponseEntity<?> getBoardAll() {
         return boardService.getBoardAll();
@@ -44,7 +45,7 @@ public class BoardController {
     //게시글 작성
     @PostMapping("/boardmake")
     public ResponseEntity<?> addBoard(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                      @RequestBody AddBoardRequestDto addBoardRequestDto) {
+                                      @Valid @RequestBody AddBoardRequestDto addBoardRequestDto) {
         return boardService.addBoard(userDetails, addBoardRequestDto);
     }
 
@@ -52,7 +53,7 @@ public class BoardController {
     @PutMapping("/boardmake/{boardId}")
     public ResponseEntity<?> updateBoard(@PathVariable Long boardId,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                         @RequestBody AddBoardRequestDto addBoardRequestDto) {
+                                         @Valid @RequestBody AddBoardRequestDto addBoardRequestDto) {
         return boardService.updateBoard(boardId, userDetails, addBoardRequestDto);
     }
 

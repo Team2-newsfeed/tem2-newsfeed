@@ -45,7 +45,7 @@ public class Board extends Timestemped {
         this.title = addBoardRequestDto.getTitle();
         this.body = addBoardRequestDto.getBody();
         this.category = addBoardRequestDto.getCategory();
-        this.cookLevel = addBoardRequestDto.getCookLevel();
+        this.cookLevel = Integer.parseInt(addBoardRequestDto.getCookLevel());
         this.user = user;
     }
 
@@ -54,6 +54,6 @@ public class Board extends Timestemped {
         this.title = addBoardRequestDto.getTitle();
         this.body = addBoardRequestDto.getBody();
         this.category = addBoardRequestDto.getCategory();
-        this.cookLevel = addBoardRequestDto.getCookLevel();
+        this.cookLevel = Integer.parseInt(addBoardRequestDto.getCookLevel());
     }
 }
