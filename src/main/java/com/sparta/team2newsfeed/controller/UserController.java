@@ -59,9 +59,9 @@ public class UserController {
     }
 
     //회원삭제
-    @DeleteMapping("/userdelete/{userId}")
-    public ResponseEntity<StatusResponseDto> userDelete(@PathVariable Long userId) {
-        return userService.userDelete(userId);
+    @DeleteMapping("/userdelete")
+    public ResponseEntity<StatusResponseDto> userDelete(@RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        return userService.userDelete(userUpdateRequestDto);
     }
 
 }

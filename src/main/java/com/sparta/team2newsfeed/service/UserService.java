@@ -77,12 +77,18 @@ public class UserService {
     }
 
     //회원삭제
-    public ResponseEntity<StatusResponseDto> userDelete(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+    public ResponseEntity<StatusResponseDto> userDelete(UserUpdateRequestDto userUpdateRequestDto) {
+        Optional<User> user = userRepository.findByUsername(userUpdateRequestDto.getUsername());
         if (user.isPresent()) {
-            userRepository.delete(user.get());
-            return new ResponseEntity<>(new StatusResponseDto("유저 삭제 성공", 200),
-                    HttpStatusCode.valueOf(200));
+            User delUser = user.get();
+            if (passwordEncoder.matches(userUpdateRequestDto.getPassword(), delUser.getPassword())) {
+                userRepository.delete(delUser);
+                return new ResponseEntity<>(new StatusResponseDto("이용자가 삭제되었습니다.", 200),
+                        HttpStatusCode.valueOf(200));
+            } else {
+                return new ResponseEntity<>(new StatusResponseDto("회원정보가 일치하지 않습니다.", 400),
+                        HttpStatusCode.valueOf(400));
+            }
         } else {
             return new ResponseEntity<>(new StatusResponseDto("해당하는 유저가 없습니다.", 200),
                     HttpStatusCode.valueOf(400));
