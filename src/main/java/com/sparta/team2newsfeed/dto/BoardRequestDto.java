@@ -1,6 +1,7 @@
 package com.sparta.team2newsfeed.dto;
 
 import com.sparta.team2newsfeed.entity.User;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
 @Getter
@@ -11,9 +12,11 @@ public class BoardRequestDto {
 
     private String body;
 
+    @Pattern(regexp = "^(KOREAN|CHINESE|JAPANESE|WESTERN)$")
     private String category;
 
-    private int cookLevel;
+    @Pattern(regexp = "^[12345]$")
+    private String cookLevel;
 
     private User user;
 }
