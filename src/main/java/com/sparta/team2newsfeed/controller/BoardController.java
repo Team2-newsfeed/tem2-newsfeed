@@ -40,7 +40,7 @@ public class BoardController {
     }
 
     //난이도별 조회
-    @GetMapping("/cookLevel/{cookLevel}")
+    @GetMapping("/cooklevel/{cookLevel}")
     public ResponseEntity<?> getBoardCookLevel(@PathVariable int cookLevel) {
         return boardService.getBoardCookLevel(cookLevel);
     }
@@ -70,5 +70,6 @@ public class BoardController {
                                          @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         return boardService.deleteBoard(boardId, userDetails);
+
     }
 }
