@@ -60,7 +60,15 @@ public class UserService {
     //회원수정
     @Transactional
     public void userUpdate(UserUpdateRequestDto userUpdateRequestDto, User user) {
-
+        if(userUpdateRequestDto.getNowPassword()==null){
+            throw new IllegalArgumentException("비밀번호를 입력해 주십시오.");
+        }
+        if(!passwordEncoder.matches(userUpdateRequestDto.getNowPassword(),user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        if(!userUpdateRequestDto.getNewPassword().equals(userUpdateRequestDto.getNewCheckPassword())){
+            throw new IllegalArgumentException("변경하는 비밀번호가 일치하지 않습니다.");
+        }
         if (userRepository.findByUsername(userUpdateRequestDto.getUsername()).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
         }
@@ -81,7 +89,7 @@ public class UserService {
         Optional<User> user = userRepository.findByUsername(userUpdateRequestDto.getUsername());
         if (user.isPresent()) {
             User delUser = user.get();
-            if (passwordEncoder.matches(userUpdateRequestDto.getPassword(), delUser.getPassword())) {
+            if (passwordEncoder.matches(userUpdateRequestDto.getNewPassword(), delUser.getPassword())) {
                 userRepository.delete(delUser);
                 return new ResponseEntity<>(new StatusResponseDto("이용자가 삭제되었습니다.", 200),
                         HttpStatusCode.valueOf(200));

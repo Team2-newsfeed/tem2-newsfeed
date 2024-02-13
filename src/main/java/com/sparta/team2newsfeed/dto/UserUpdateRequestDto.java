@@ -17,7 +17,13 @@ public class UserUpdateRequestDto {
     private String username;
 
     @Pattern(regexp = "^[a-zA-Z0-9]{8,15}$")
-    private String password;
+    private String nowPassword;
+
+    @Pattern(regexp = "^[a-zA-Z0-9]{8,15}$")
+    private String newPassword;
+
+    @Pattern(regexp = "^[a-zA-Z0-9]{8,15}$")
+    private String newCheckPassword;
 
     @Email
     private String email;

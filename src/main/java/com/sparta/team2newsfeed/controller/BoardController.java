@@ -1,9 +1,8 @@
 package com.sparta.team2newsfeed.controller;
 
-import com.sparta.team2newsfeed.dto.AddBoardRequestDto;
+import com.sparta.team2newsfeed.dto.BoardRequestDto;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.service.BoardService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-        //전체게시글 조회
+    //전체게시글 조회
     @GetMapping("/board")
     public ResponseEntity<?> getBoardAll() {
         return boardService.getBoardAll();
@@ -45,22 +44,26 @@ public class BoardController {
     //게시글 작성
     @PostMapping("/boardmake")
     public ResponseEntity<?> addBoard(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                      @Valid @RequestBody AddBoardRequestDto addBoardRequestDto) {
-        return boardService.addBoard(userDetails, addBoardRequestDto);
+                                      @RequestBody BoardRequestDto boardRequestDto
+    ) {
+        return boardService.addBoard(userDetails, boardRequestDto);
+
     }
 
     //게시글 수정
     @PutMapping("/boardmake/{boardId}")
     public ResponseEntity<?> updateBoard(@PathVariable Long boardId,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                         @Valid @RequestBody AddBoardRequestDto addBoardRequestDto) {
-        return boardService.updateBoard(boardId, userDetails, addBoardRequestDto);
+                                         @RequestBody BoardRequestDto boardRequestDto
+    ) {
+        return boardService.updateBoard(boardId, userDetails, boardRequestDto);
     }
 
     //게시글 삭제
     @DeleteMapping("/boardmake/{boardId}")
     public ResponseEntity<?> deleteBoard(@PathVariable Long boardId,
-                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         return boardService.deleteBoard(boardId, userDetails);
     }
 }

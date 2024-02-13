@@ -18,9 +18,8 @@ public class LikesController {
     }
 
     @PostMapping("/{boardId}/likes")
-    private void voidLikes(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                          @PathVariable Long boardId){
-        likesService.voidLikes(userDetails, boardId);
-
+    private ResponseEntity<StatusResponseDto> addLikes(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                       @PathVariable Long boardId) {
+        return likesService.addLikes(userDetails, boardId);
     }
 }

@@ -54,8 +54,8 @@ public class User {
 
     // 유저 정보 수정하기
     public void userUpdate(UserUpdateRequestDto userUpdateRequestDto, PasswordEncoder passwordEncoder) {
-        if (userUpdateRequestDto.getPassword() != null) {
-            this.password = passwordEncoder.encode(userUpdateRequestDto.getPassword());
+        if (userUpdateRequestDto.getNewPassword() != null) {
+            this.password = passwordEncoder.encode(userUpdateRequestDto.getNewPassword());
         }
         if (userUpdateRequestDto.getUsername() != null) {
             this.username = userUpdateRequestDto.getUsername();
