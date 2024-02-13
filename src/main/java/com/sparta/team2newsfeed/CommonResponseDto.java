@@ -1,17 +1,17 @@
-package com.sparta.team2newsfeed.dto;
+package com.sparta.team2newsfeed;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponseDto {
-    //API 응답할때 쓰는 DTO
-
-    private String msg; // 메세지
-    private Integer statusCode; // 응답코드
+public class CommonResponseDto {
+    private String msg;
+    private Integer statusCode;
 }

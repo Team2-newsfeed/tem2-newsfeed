@@ -1,11 +1,15 @@
 package com.sparta.team2newsfeed.controller;
 
+import com.sparta.team2newsfeed.dto.BoardRequestDto;
+import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.service.BoardService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/board")
+@RequestMapping("/api")
 public class BoardController {
     //Service 주입
     private final BoardService boardService;
@@ -21,53 +25,48 @@ public class BoardController {
     }
 
     //단일게시글 조회
-    @GetMapping("/{boardId}")
+    @GetMapping("/board/{boardId}")
     public ResponseEntity<?> getBoardOne(@PathVariable Long boardId) {
         return boardService.getBoardOne(boardId);
     }
 
     //카테고리별 조회
-    @GetMapping("/category/{categoryName}")
+    @GetMapping("/board/category/{categoryName}")
     public ResponseEntity<?> getBoardCategory(@PathVariable String categoryName) {
         return boardService.getBoardCategory(categoryName);
     }
 
     //난이도별 조회
-    @GetMapping("/cookLevel/{cookLevel}")
+    @GetMapping("/board/cooklevel/{cookLevel}")
     public ResponseEntity<?> getBoardCookLevel(@PathVariable int cookLevel) {
         return boardService.getBoardCookLevel(cookLevel);
     }
 
     //게시글 작성
-    @PostMapping
-    public ResponseEntity<?> addBoard(
-//            @AuthenticationPrincipal UserDetarilsImpl userDetarils,
-//                                      @RequestBody #DTO
-    ) {
-        return boardService.addBoard(
-//                userDetarils, #DTO
-        );
+    @PostMapping("/boardmake")
+    public ResponseEntity<?> addBoard(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @Valid @RequestBody BoardRequestDto boardRequestDto
+                                      ) {
+        return boardService.addBoard(userDetails, boardRequestDto);
 
     }
 
     //게시글 수정
-    @PutMapping("/{boardId}")
-    public ResponseEntity<?> updateBoard(@PathVariable Long boardId
-//                                         ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
-//                                         @RequestBody #DTO
+    @PutMapping("/boardmake/{boardId}")
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                        @Valid @RequestBody BoardRequestDto boardRequestDto
     ) {
-        return boardService.updateBoard(boardId
-//                , userDetarils, #DTO
-        );
+        return boardService.updateBoard(boardId, userDetails, boardRequestDto);
     }
 
+
     //게시글 삭제
-    @DeleteMapping("/{boardId}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId
-//            ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
-                                         ) {
-        return boardService.deleteBoard(boardId
-//                , userDetarils
-                );
+    @DeleteMapping("/boardmake/{boardId}")
+    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return boardService.deleteBoard(boardId, userDetails);
+
     }
 }
