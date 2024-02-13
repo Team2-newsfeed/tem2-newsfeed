@@ -1,8 +1,15 @@
 package com.sparta.team2newsfeed.controller;
 
+import com.sparta.team2newsfeed.dto.BoardRequestDto;
+import com.sparta.team2newsfeed.dto.BoardResponseDto;
+import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.service.BoardService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.RejectedExecutionException;
 
 @RestController
 @RequestMapping("/api/board")
@@ -40,34 +47,29 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping
-    public ResponseEntity<?> addBoard(
-//            @AuthenticationPrincipal UserDetarilsImpl userDetarils,
-//                                      @RequestBody #DTO
-    ) {
-        return boardService.addBoard(
-//                userDetarils, #DTO
-        );
+    public ResponseEntity<?> addBoard(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @RequestBody BoardRequestDto boardRequestDto
+                                      ) {
+        return boardService.addBoard(userDetails, boardRequestDto);
 
     }
 
     //게시글 수정
     @PutMapping("/{boardId}")
-    public ResponseEntity<?> updateBoard(@PathVariable Long boardId
-//                                         ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
-//                                         @RequestBody #DTO
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                         @RequestBody BoardRequestDto boardRequestDto
     ) {
-        return boardService.updateBoard(boardId
-//                , userDetarils, #DTO
-        );
+        return boardService.updateBoard(boardId, userDetails, boardRequestDto);
     }
+
 
     //게시글 삭제
     @DeleteMapping("/{boardId}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId
-//            ,@AuthenticationPrincipal UserDetarilsImpl userDetarils,
+    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return boardService.deleteBoard(boardId
-//                , userDetarils
-        );
+        return boardService.deleteBoard(boardId, userDetails);
+
     }
 }
