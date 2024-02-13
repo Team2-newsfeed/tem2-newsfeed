@@ -46,8 +46,4 @@ public class Board extends Timestemped {
         this.category = boardRequestDto.getCategory();
         this.cookLevel = boardRequestDto.getCookLevel();
     }
-
-    public void delete(Board board) {
-
-    }
 }

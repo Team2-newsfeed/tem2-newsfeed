@@ -137,6 +137,15 @@ public class BoardService {
     ) { // 삭제 하고자 하는 게시글 찾기
         if (findBoard(boardId).isPresent()) {
             Board board = findBoard(boardId).get();
+            // 해당 게시글 작성자 확인 로직
+            if (findMyBoard(board, userDetails)) {
+                boardRepository.delete(board);
+                return new ResponseEntity<>(new CommonResponseDto("게시물 삭제 완료", 200), HttpStatusCode.valueOf(200));
+            } else { // 본인 게시글이 아닌 경우
+                 return new ResponseEntity<>(new CommonResponseDto("해당 게시글 작성자만 삭제 가능합니다.", 400), HttpStatusCode.valueOf(400));
+            }
+        } else { // boardId 에 해당하는 게시물이 없는 경우
+            return new ResponseEntity<>(new CommonResponseDto("찾고자 하는 ID의 게시글이 존재하지 않습니다.",400), HttpStatusCode.valueOf(400));
         }
     }
 
