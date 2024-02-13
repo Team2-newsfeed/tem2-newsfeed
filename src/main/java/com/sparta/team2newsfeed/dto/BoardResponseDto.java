@@ -12,6 +12,7 @@ public class BoardResponseDto {
     private String title;
     private String body;
     private String category;
+    private int cookLevel;
     private String username;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -21,6 +22,18 @@ public class BoardResponseDto {
         this.title = board.getTitle();
         this.body = board.getBody();
         this.category = board.getCategory();
+        this.cookLevel = board.getCookLevel();
+        this.username = board.getUser().getUsername();
+        this.createdAt = board.getCreatedAt();
+        this.modifiedAt = board.getModifiedAt();
+    }
+
+    public BoardResponseDto(Board board, User user){
+        this.id = board.getId();
+        this.title = board.getTitle();
+        this.body = board.getBody();
+        this.category = board.getCategory();
+        this.cookLevel = board.getCookLevel();
         this.username = board.getUser().getUsername();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
