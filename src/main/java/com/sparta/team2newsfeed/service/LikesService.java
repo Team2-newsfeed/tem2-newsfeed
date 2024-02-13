@@ -1,11 +1,17 @@
 package com.sparta.team2newsfeed.service;
 
+import com.sparta.team2newsfeed.dto.StatusResponseDto;
 import com.sparta.team2newsfeed.entity.Board;
 import com.sparta.team2newsfeed.entity.Likes;
+import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.BoardRepository;
 import com.sparta.team2newsfeed.repository.LikesRepository;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class LikesService {
