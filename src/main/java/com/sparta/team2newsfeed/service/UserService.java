@@ -1,5 +1,7 @@
 package com.sparta.team2newsfeed.service;
 
+import com.sparta.team2newsfeed.controller.UserController;
+import com.sparta.team2newsfeed.dto.UserPassCheckRequestDto;
 import com.sparta.team2newsfeed.dto.UserRequestDto;
 import com.sparta.team2newsfeed.dto.UserUpdateRequestDto;
 import com.sparta.team2newsfeed.entity.User;
@@ -58,6 +60,15 @@ public class UserService {
     //회원수정
     @Transactional
     public void userUpdate(UserUpdateRequestDto userUpdateRequestDto,User user) {
+        if(userUpdateRequestDto.getNowPassword()==null){
+            throw new IllegalArgumentException("비밀번호를 입력해 주십시오.");
+        }
+        if(!passwordEncoder.matches(userUpdateRequestDto.getNowPassword(),user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        if(!userUpdateRequestDto.getNewPassword().equals(userUpdateRequestDto.getNewCheckPassword())){
+            throw new IllegalArgumentException("변경하는 비밀번호가 일치하지 않습니다.");
+        }
 
         if(userRepository.findByUsername(userUpdateRequestDto.getUsername()).isPresent()){
             throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
@@ -73,4 +84,6 @@ public class UserService {
         userUp.userUpdate(userUpdateRequestDto,passwordEncoder);
         userRepository.save(userUp);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.sparta.team2newsfeed.controller;
 
+import com.sparta.team2newsfeed.dto.UserPassCheckRequestDto;
 import com.sparta.team2newsfeed.dto.UserRequestDto;
 import com.sparta.team2newsfeed.dto.UserResponseDto;
 import com.sparta.team2newsfeed.dto.UserUpdateRequestDto;
