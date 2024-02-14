@@ -3,6 +3,7 @@ package com.sparta.team2newsfeed.service;
 
 import com.sparta.team2newsfeed.dto.BoardRequestDto;
 import com.sparta.team2newsfeed.dto.BoardResponseDto;
+import com.sparta.team2newsfeed.dto.BoardUpdateRequestDto;
 import com.sparta.team2newsfeed.dto.StatusResponseDto;
 import com.sparta.team2newsfeed.entity.Board;
 import com.sparta.team2newsfeed.entity.Category;
@@ -12,12 +13,7 @@ import com.sparta.team2newsfeed.repository.BoardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,8 +111,8 @@ public class BoardService {
     }
 
     //게시글 작성
-    public ResponseEntity<?> addBoard(  UserDetailsImpl userDetails,
-                                        BoardRequestDto dto
+    public ResponseEntity<?> addBoard(UserDetailsImpl userDetails,
+                                      BoardRequestDto dto
     ) {
         // 새로운 보드 entity 에 보드 정보와 유저를 넣어서 저장
         Board addedBoard = boardRepository.save(new Board(dto, userDetails.getUser()));
@@ -127,22 +123,22 @@ public class BoardService {
     //게시글 수정
     public ResponseEntity<?> updateBoard(Long boardId,
                                          UserDetailsImpl userDetails,
-                                         BoardRequestDto boardRequestDto
+                                         BoardUpdateRequestDto boardUpdateRequestDto
     ) {
         if (findBoard(boardId).isPresent()) {
             // optional
             Board board = findBoard(boardId).get();
 
             // 본인 게시글인지 확인
-            if(findMyBoard(board, userDetails)) {
-                board.update(boardRequestDto);
+            if (findMyBoard(board, userDetails)) {
+                board.update(boardUpdateRequestDto);
                 Board updatedBoard = boardRepository.save(board);
                 return new ResponseEntity<>(new BoardResponseDto(updatedBoard, userDetails.getUser()), HttpStatusCode.valueOf(201));
             } else { // 본인 게시글이 아닌 경우
                 return new ResponseEntity<>(new StatusResponseDto("해당 게시글 작성자만 수정 가능합니다.", 400), HttpStatusCode.valueOf(400));
             }
         } else { // boardId 에 해당하는 게시물이 없는 경우
-            return new ResponseEntity<>(new StatusResponseDto("찾고자 하는 ID의 게시글이 존재하지 않습니다.",400), HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(new StatusResponseDto("찾고자 하는 ID의 게시글이 존재하지 않습니다.", 400), HttpStatusCode.valueOf(400));
         }
     }
 
@@ -160,7 +156,7 @@ public class BoardService {
                 return new ResponseEntity<>(new StatusResponseDto("해당 게시글 작성자만 삭제 가능합니다.", 400), HttpStatusCode.valueOf(400));
             }
         } else { // boardId 에 해당하는 게시물이 없는 경우
-            return new ResponseEntity<>(new StatusResponseDto("찾고자 하는 ID의 게시글이 존재하지 않습니다.",400), HttpStatusCode.valueOf(400));
+            return new ResponseEntity<>(new StatusResponseDto("찾고자 하는 ID의 게시글이 존재하지 않습니다.", 400), HttpStatusCode.valueOf(400));
         }
     }
 
@@ -176,6 +172,7 @@ public class BoardService {
             return false;
         }
     }
+
     //게시글 작성자 본인인지 확인
     private boolean findMyBoard(Board board, UserDetailsImpl userDetails) {
         User loginUser = userDetails.getUser();

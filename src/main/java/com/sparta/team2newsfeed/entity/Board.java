@@ -1,6 +1,7 @@
 package com.sparta.team2newsfeed.entity;
 
 import com.sparta.team2newsfeed.dto.BoardRequestDto;
+import com.sparta.team2newsfeed.dto.BoardUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,11 +50,19 @@ public class Board extends Timestemped {
         this.user = user;
     }
 
-    public void update(BoardRequestDto boardRequestDto) {
-        this.title = boardRequestDto.getTitle();
-        this.body = boardRequestDto.getBody();
-        this.category = boardRequestDto.getCategory();
-        this.cookLevel = Integer.parseInt(boardRequestDto.getCookLevel());
+    public void update(BoardUpdateRequestDto boardUpdateRequestDto) {
+        if (boardUpdateRequestDto.getTitle() != null) {
+            this.title = boardUpdateRequestDto.getTitle();
+        }
+        if (boardUpdateRequestDto.getBody() != null) {
+            this.body = boardUpdateRequestDto.getBody();
+        }
+        if (boardUpdateRequestDto.getCategory() != null) {
+            this.category = boardUpdateRequestDto.getCategory();
+        }
+        if (boardUpdateRequestDto.getCookLevel() != null) {
+            this.cookLevel = Integer.parseInt(boardUpdateRequestDto.getCookLevel());
+        }
     }
 
 }

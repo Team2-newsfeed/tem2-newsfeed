@@ -25,7 +25,7 @@ public class WebSecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil,objectMapper,userDetailsService);
+        return new JwtAuthenticationFilter(jwtUtil, objectMapper, userDetailsService);
     }
 
     @Bean
@@ -46,9 +46,8 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-                        .requestMatchers("/api/user/userupdate").authenticated()
-                        .requestMatchers("/api/user/**").permitAll() // '/api/users/'로 시작하는 요청 모두 접근 허가
-                        .requestMatchers("/api/boardmake/**").authenticated()
+                        .requestMatchers("/api/user/login").permitAll()
+                        .requestMatchers("/api/user/signup").permitAll() //  접근 허가
                         .requestMatchers("/api/board/**").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
