@@ -60,15 +60,17 @@ public class UserController {
 
     //회원삭제
     @DeleteMapping("/userdelete")
-    public ResponseEntity<StatusResponseDto> userDelete(@RequestBody UserUpdateRequestDto userUpdateRequestDto) {
-        return userService.userDelete(userUpdateRequestDto);
+    public ResponseEntity<StatusResponseDto> userDelete(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                        @RequestBody UserUpdateRequestDto userUpdateRequestDto,
+                                                        HttpServletResponse response) {
+        response.setHeader("Authorization","Bearer team2");
+        return userService.userDelete(userDetails, userUpdateRequestDto);
     }
 
     //로그아웃
-    @GetMapping("/userlogout")
+    @PostMapping("/userlogout")
     public ResponseEntity<StatusResponseDto> userLogout(HttpServletResponse response){
-        response.setHeader("Authorization",null);
+        response.setHeader("Authorization","Bearer team2");
         return ResponseEntity.ok().body(new StatusResponseDto("로그아웃", HttpStatus.OK.value()));
     }
-
 }

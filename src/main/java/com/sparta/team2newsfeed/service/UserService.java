@@ -4,6 +4,7 @@ import com.sparta.team2newsfeed.dto.StatusResponseDto;
 import com.sparta.team2newsfeed.dto.UserRequestDto;
 import com.sparta.team2newsfeed.dto.UserUpdateRequestDto;
 import com.sparta.team2newsfeed.entity.User;
+import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -89,21 +88,16 @@ public class UserService {
 
     //회원삭제
     @Transactional
-    public ResponseEntity<StatusResponseDto> userDelete(UserUpdateRequestDto userUpdateRequestDto) {
-        Optional<User> user = userRepository.findByUsername(userUpdateRequestDto.getUsername());
-        if (user.isPresent()) {
-            User delUser = user.get();
-            if (passwordEncoder.matches(userUpdateRequestDto.getNewPassword(), delUser.getPassword())) {
-                userRepository.delete(delUser);
-                return new ResponseEntity<>(new StatusResponseDto("이용자가 삭제되었습니다.", 200),
-                        HttpStatusCode.valueOf(200));
-            } else {
-                return new ResponseEntity<>(new StatusResponseDto("회원정보가 일치하지 않습니다.", 400),
-                        HttpStatusCode.valueOf(400));
-            }
+    public ResponseEntity<StatusResponseDto> userDelete(UserDetailsImpl userDetails,
+                                                        UserUpdateRequestDto userUpdateRequestDto) {
+        User delUser = userDetails.getUser();
+        if (passwordEncoder.matches(userUpdateRequestDto.getNowPassword(), delUser.getPassword())) {
+            userRepository.delete(delUser);
+            return new ResponseEntity<>(new StatusResponseDto("이용자가 삭제되었습니다.", 200),
+                    HttpStatusCode.valueOf(200));
         } else {
-            return new ResponseEntity<>(new StatusResponseDto("해당하는 유저가 없습니다.", 200),
+            return new ResponseEntity<>(new StatusResponseDto("패스워드가 일치하지 않습니다.", 400),
                     HttpStatusCode.valueOf(400));
-        }
+            }
     }
 }
