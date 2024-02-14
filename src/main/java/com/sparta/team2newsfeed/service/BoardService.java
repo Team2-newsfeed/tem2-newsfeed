@@ -10,6 +10,7 @@ import com.sparta.team2newsfeed.entity.Category;
 import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.BoardRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -111,6 +112,7 @@ public class BoardService {
     }
 
     //게시글 작성
+    @Transactional
     public ResponseEntity<?> addBoard(UserDetailsImpl userDetails,
                                       BoardRequestDto dto
     ) {
@@ -121,6 +123,7 @@ public class BoardService {
     }
 
     //게시글 수정
+    @Transactional
     public ResponseEntity<?> updateBoard(Long boardId,
                                          UserDetailsImpl userDetails,
                                          BoardUpdateRequestDto boardUpdateRequestDto
@@ -143,6 +146,7 @@ public class BoardService {
     }
 
     //게시글 삭제
+    @Transactional
     public ResponseEntity<?> deleteBoard(Long boardId,
                                          UserDetailsImpl userDetails
     ) { // 삭제 하고자 하는 게시글 찾기

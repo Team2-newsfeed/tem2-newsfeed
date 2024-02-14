@@ -9,10 +9,12 @@ import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.BoardRepository;
 import com.sparta.team2newsfeed.repository.CommentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +28,29 @@ public class CommentService {
         this.boardRepository = boardRepository;
     }
 
+    //게시글의 comment 전체 조회
+    public ResponseEntity<?> getCommentAll(UserDetailsImpl userDetails, Long boardId) {
+        if (findBoard(boardId).isPresent()){
+            List<CommentResponseDto> commentList = commentRepository.findAllByBoard_IdOrderByCreatedAt(boardId).stream().
+                    map(i -> new CommentResponseDto(i,boardId,userDetails.getUser())).toList();
+            if(commentList.isEmpty()){
+                return new ResponseEntity<>(
+                        new StatusResponseDto("게시물에 댓글이 없습니다.", 400),
+                        HttpStatusCode.valueOf(400));
+            } else {
+                return new ResponseEntity<>(commentList,HttpStatusCode.valueOf(200));
+            }
+
+        } else {
+            return new ResponseEntity<>(
+                    new StatusResponseDto("해당하는 게시물이 없습니다.", 400),
+                    HttpStatusCode.valueOf(400));
+        }
+
+    }
+
     //comment 생성
+    @Transactional
     public ResponseEntity<?> addComment(UserDetailsImpl userDetails,
                                         CommentRequestDto commentRequestDto,
                                         Long boardId) {
@@ -46,6 +70,7 @@ public class CommentService {
     }
 
     //comment 수정
+    @Transactional
     public ResponseEntity<?> updateComment(UserDetailsImpl userDetails,
                                            CommentRequestDto commentRequestDto,
                                            Long boardId,
@@ -138,4 +163,5 @@ public class CommentService {
     private Optional<Comment> findComment(Long commentId) {
         return commentRepository.findById(commentId);
     }
+
 }

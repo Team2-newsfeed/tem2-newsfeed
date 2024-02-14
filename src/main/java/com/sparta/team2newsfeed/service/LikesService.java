@@ -7,6 +7,7 @@ import com.sparta.team2newsfeed.entity.User;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.repository.BoardRepository;
 import com.sparta.team2newsfeed.repository.LikesRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class LikesService {
         this.boardRepository = boardRepository;
     }
 
+    @Transactional
     public ResponseEntity<StatusResponseDto> addLikes(UserDetailsImpl userDetails,
                                                       Long boardId) {
 

@@ -88,6 +88,7 @@ public class UserService {
     }
 
     //회원삭제
+    @Transactional
     public ResponseEntity<StatusResponseDto> userDelete(UserUpdateRequestDto userUpdateRequestDto) {
         Optional<User> user = userRepository.findByUsername(userUpdateRequestDto.getUsername());
         if (user.isPresent()) {
