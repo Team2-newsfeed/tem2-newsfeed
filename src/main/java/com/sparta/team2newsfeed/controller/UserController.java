@@ -64,4 +64,11 @@ public class UserController {
         return userService.userDelete(userUpdateRequestDto);
     }
 
+    //로그아웃
+    @GetMapping("/userlogout")
+    public ResponseEntity<StatusResponseDto> userLogout(HttpServletResponse response){
+        response.setHeader("Authorization",null);
+        return ResponseEntity.ok().body(new StatusResponseDto("로그아웃", HttpStatus.OK.value()));
+    }
+
 }
