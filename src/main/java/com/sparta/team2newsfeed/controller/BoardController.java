@@ -1,6 +1,7 @@
 package com.sparta.team2newsfeed.controller;
 
 import com.sparta.team2newsfeed.dto.BoardRequestDto;
+import com.sparta.team2newsfeed.dto.BoardUpdateRequestDto;
 import com.sparta.team2newsfeed.imp.UserDetailsImpl;
 import com.sparta.team2newsfeed.service.BoardService;
 import org.springframework.http.ResponseEntity;
@@ -54,9 +55,9 @@ public class BoardController {
     @PutMapping("/boardmake/{boardId}")
     public ResponseEntity<?> updateBoard(@PathVariable Long boardId,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                         @RequestBody BoardRequestDto boardRequestDto
+                                         @RequestBody BoardUpdateRequestDto boardUpdateRequestDto
     ) {
-        return boardService.updateBoard(boardId, userDetails, boardRequestDto);
+        return boardService.updateBoard(boardId, userDetails, boardUpdateRequestDto);
     }
 
     //게시글 삭제
