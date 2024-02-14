@@ -66,8 +66,11 @@ public class UserService {
         if(!passwordEncoder.matches(userUpdateRequestDto.getNowPassword(),user.getPassword())){
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-        if(!userUpdateRequestDto.getNewPassword().equals(userUpdateRequestDto.getNewCheckPassword())){
-            throw new IllegalArgumentException("변경하는 비밀번호가 일치하지 않습니다.");
+        if(userUpdateRequestDto.getNewPassword() != null)
+        {
+            if(!userUpdateRequestDto.getNewPassword().equals(userUpdateRequestDto.getNewCheckPassword())){
+                throw new IllegalArgumentException("변경하는 비밀번호가 일치하지 않습니다.");
+            }
         }
         if (userRepository.findByUsername(userUpdateRequestDto.getUsername()).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 유저 입니다.");
