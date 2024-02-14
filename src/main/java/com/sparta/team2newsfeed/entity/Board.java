@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -31,6 +34,12 @@ public class Board extends Timestemped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
     // BoardService 에서 보드Dto 와 유저 ID를 받기 위한 생성자
     public Board(BoardRequestDto boardRequestDto, User user) {
         this.title = boardRequestDto.getTitle();
@@ -46,4 +55,5 @@ public class Board extends Timestemped {
         this.category = boardRequestDto.getCategory();
         this.cookLevel = Integer.parseInt(boardRequestDto.getCookLevel());
     }
+
 }

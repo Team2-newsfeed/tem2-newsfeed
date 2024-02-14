@@ -34,9 +34,14 @@ public class User {
     @Column(nullable = false)
     private String intro;
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Board> boardList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Likes> likesList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList;
 
     //회원정보 대조용
     public User(String username, String name, String password, String email, String intro) {

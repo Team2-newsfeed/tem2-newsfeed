@@ -14,10 +14,12 @@ public class BoardResponseDto {
     private String category;
     private int cookLevel;
     private String username;
+    private Long likes;
+    private Long comments;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public BoardResponseDto(Board board){
+    public BoardResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.body = board.getBody();
@@ -26,6 +28,8 @@ public class BoardResponseDto {
         this.username = board.getUser().getUsername();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
+        this.likes = board.getLikes().stream().count();
+        this.comments = board.getComments().stream().count();
     }
 
     public BoardResponseDto(Board board, User user){
@@ -37,5 +41,7 @@ public class BoardResponseDto {
         this.username = board.getUser().getUsername();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
+        this.likes = board.getLikes().stream().count();
+        this.comments = board.getComments().stream().count();
     }
 }
