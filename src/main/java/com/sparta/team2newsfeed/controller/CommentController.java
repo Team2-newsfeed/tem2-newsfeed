@@ -18,6 +18,14 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    //한 게시물의 전체 comment 조회
+    @GetMapping
+    private ResponseEntity<?> getCommentAll(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                            @PathVariable Long boardId) {
+
+        return commentService.getCommentAll(userDetails, boardId);
+    }
+
     //comment 등록
     @PostMapping
     private ResponseEntity<?> addComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
